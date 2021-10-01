@@ -67,17 +67,17 @@ users.forEach(user => {
             if (err) {
                 return;
             }
-
         });
     }
+
     if (user.gender === 'male' && user.age > 20) {
         fs.writeFile(path.join(pathManOlder20, `${user.name}`), JSON.stringify(user), err => {
             if (err) {
                 return;
             }
-
         });
     }
+
     if (user.gender === 'female' && user.age > 20) {
         fs.writeFile(path.join(pathWomanOlder20, `${user.name}`), JSON.stringify(user), err => {
             if (err) {
@@ -85,6 +85,7 @@ users.forEach(user => {
             }
         });
     }
+
     if (user.gender === 'female' && user.age < 20) {
         fs.writeFile(path.join(pathWomanYounger20, `${user.name}`), JSON.stringify(user), err => {
             if (err) {
