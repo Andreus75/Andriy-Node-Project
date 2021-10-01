@@ -6,17 +6,20 @@ const readWrite = (path1, path2, gender) => {
         if (err) {
             return;
         }
+
         files.forEach(file => {
             fs.readFile(path.join(path1, file), (er, data) => {
                 if (er) {
                     return;
                 }
+
                 if (JSON.parse(data).gender === gender) {
                     fs.rename(path.join(path1, file), path.join(path2, file), err => {
                         if (err) {
                             return;
                         }
-                    })
+
+                    });
                 }
             });
         });

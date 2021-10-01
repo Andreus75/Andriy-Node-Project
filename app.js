@@ -22,22 +22,26 @@ fs.mkdir(createDirPath1, {recursive: true}, (e) => {
     if (e) {
         return;
     }
-})
+
+});
 fs.mkdir(createDirPath2, {recursive: true}, (e) => {
     if (e) {
         return;
     }
-})
+
+});
 fs.mkdir(createDirPath3, {recursive: true}, (e) => {
     if (e) {
         return;
     }
-})
+
+});
 fs.mkdir(createDirPath4, {recursive: true}, (e) => {
     if (e) {
         return;
     }
-})
+
+});
 
 const users = [
     builder.createUser('Vasay', 'male', 34),
@@ -52,33 +56,43 @@ const users = [
     builder.createUser('Vira', 'female', 21)
 ];
 
+const pathManYounger20 = path.join(__dirname, 'files', 'manYounger20')
+const pathManOlder20 = path.join(__dirname, 'files', 'manOlder20')
+const pathWomanOlder20 = path.join(__dirname, 'files', 'womanOlder20')
+const pathWomanYounger20 = path.join(__dirname, 'files', 'womanYounger20')
+
 users.forEach(user => {
     if (user.gender === 'male' && user.age < 20) {
-        fs.writeFile(`${__dirname}/files/manYounger20/${user.name}`, JSON.stringify(user), err => {
+        fs.writeFile(path.join(pathManYounger20, `${user.name}`), JSON.stringify(user), err => {
             if (err) {
-                return
+                return;
             }
-        })
-    }else if (user.gender === 'male' && user.age > 20) {
-        fs.writeFile(`${__dirname}/files/manOlder20/${user.name}`, JSON.stringify(user), err => {
-            if (err) {
-                return
-            }
-        })
-    }else if (user.gender === 'female' && user.age > 20) {
-        fs.writeFile(`${__dirname}/files/womanOlder20/${user.name}`, JSON.stringify(user), err => {
-            if (err) {
-                return
-            }
-        })
-    }else if (user.gender === 'female' && user.age < 20) {
-        fs.writeFile(`${__dirname}/files/womanYounger20/${user.name}`, JSON.stringify(user), err => {
-            if (err) {
-                return
-            }
-        })
+
+        });
     }
-})
+    if (user.gender === 'male' && user.age > 20) {
+        fs.writeFile(path.join(pathManOlder20, `${user.name}`), JSON.stringify(user), err => {
+            if (err) {
+                return;
+            }
+
+        });
+    }
+    if (user.gender === 'female' && user.age > 20) {
+        fs.writeFile(path.join(pathWomanOlder20, `${user.name}`), JSON.stringify(user), err => {
+            if (err) {
+                return;
+            }
+        });
+    }
+    if (user.gender === 'female' && user.age < 20) {
+        fs.writeFile(path.join(pathWomanYounger20, `${user.name}`), JSON.stringify(user), err => {
+            if (err) {
+                return;
+            }
+        });
+    }
+});
 
 
 
