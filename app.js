@@ -68,6 +68,7 @@ users.forEach(user => {
                 return;
             }
         });
+        return;
     }
 
     if (user.gender === 'male' && user.age > 20) {
@@ -76,6 +77,7 @@ users.forEach(user => {
                 return;
             }
         });
+        return;
     }
 
     if (user.gender === 'female' && user.age > 20) {
@@ -84,6 +86,7 @@ users.forEach(user => {
                 return;
             }
         });
+        return;
     }
 
     if (user.gender === 'female' && user.age < 20) {
