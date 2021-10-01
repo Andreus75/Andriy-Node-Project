@@ -1,4 +1,0 @@
-{
-"name": "Inna",
-"gender": "female"
-}

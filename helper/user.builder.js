@@ -1,10 +1,8 @@
-const createUser = (name, age) => {
+const createUser = (name, gender, age) => {
     return {
         name,
-        age,
-        greeting: () => {
-            console.log('Hello, my name ${name}');
-        }
+        gender,
+        age
     }
 }
 
