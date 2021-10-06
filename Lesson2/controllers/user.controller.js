@@ -3,17 +3,19 @@
 const {request, response} = require("express");
 const fs = require('fs');
 const path = require('path');
+const readAndWrite = require('../helper/users.helper')
 
 const  pathDataBase = path.join(__dirname, '../', 'database', 'users.json');
 
 module.exports = {
     getUsers: (request, response) => {
-        fs.readFile(pathDataBase, (err, data) => {
-            if (err) {
-                return;
-            }
-            response.json(JSON.parse(data));
-        });
+            fs.readFile(pathDataBase, (err, data) => {
+                if (err) {
+                    return;
+                }
+                response.json(JSON.parse(data));
+            });
+
     },
 
     getUserById: (request, response) => {
@@ -33,14 +35,13 @@ module.exports = {
     },
 
     createUser: (request, response) => {
-        console.log(request.body);
 
         fs.readFile(pathDataBase, (err, data) => {
             if (err) {
                 return;
             }
             const users = JSON.parse(data);
-            users.push({ id: users.length, ...request.body });
+            users.push({ id: users[users.length-1].id + 1, ...request.body });
             fs.writeFile(pathDataBase, JSON.stringify(users), er => {
                 if (er) {
                     return;
