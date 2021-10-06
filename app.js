@@ -1,102 +1,36 @@
 const fs = require('fs');
 const path = require('path');
-const boysPath = path.join(__dirname, 'files', 'boys');
-const girlsPath = path.join(__dirname, 'files', 'girls');
-const createDirPath1 = path.join(__dirname, 'files', 'manOlder20');
-const createDirPath2 = path.join(__dirname, 'files', 'manYounger20');
-const createDirPath3 = path.join(__dirname, 'files', 'womanOlder20');
-const createDirPath4 = path.join(__dirname, 'files', 'womanYounger20');
-const builder = require('./helper/user.builder');
-const change = require('./readWrite/readWrite');
+// const boysPath = path.join(__dirname, 'files', 'boys');
+// const girlsPath = path.join(__dirname, 'files', 'girls');
+// const change = require('./lesson1/readWrite/readWrite');
+// const classwork1 = require('./lesson1/classwork/classwork')
+
+const express = require('express');
+const {request, response} = require("express");
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+const userRouter = require('./Lesson2/routers/user.router');
+
+app.use('/users', userRouter);
+
 
 
 // --------- homework
 
-change.readWrite(boysPath, girlsPath, 'female');
-change.readWrite(girlsPath, boysPath, 'male');
+// change.readWrite(boysPath, girlsPath, 'female');
+// change.readWrite(girlsPath, boysPath, 'male');
 
-
-// --------- classwork
-
-fs.mkdir(createDirPath1, {recursive: true}, (e) => {
-    if (e) {
-        return;
-    }
-
-});
-fs.mkdir(createDirPath2, {recursive: true}, (e) => {
-    if (e) {
-        return;
-    }
-
-});
-fs.mkdir(createDirPath3, {recursive: true}, (e) => {
-    if (e) {
-        return;
-    }
-
-});
-fs.mkdir(createDirPath4, {recursive: true}, (e) => {
-    if (e) {
-        return;
-    }
-
+app.listen(5000, () => {
+    console.log('App listen 5000');
 });
 
-const users = [
-    builder.createUser('Vasay', 'male', 34),
-    builder.createUser('Igor', 'male', 17),
-    builder.createUser('Olya', 'female', 23),
-    builder.createUser('Roksolyana', 'female', 25),
-    builder.createUser('Inna', 'female', 16),
-    builder.createUser('Oleg', 'male', 18),
-    builder.createUser('Ira', 'female', 19),
-    builder.createUser('Viktor', 'male', 25),
-    builder.createUser('Evgen', 'male', 38),
-    builder.createUser('Vira', 'female', 21)
-];
 
-const pathManYounger20 = path.join(__dirname, 'files', 'manYounger20')
-const pathManOlder20 = path.join(__dirname, 'files', 'manOlder20')
-const pathWomanOlder20 = path.join(__dirname, 'files', 'womanOlder20')
-const pathWomanYounger20 = path.join(__dirname, 'files', 'womanYounger20')
 
-users.forEach(user => {
-    if (user.gender === 'male' && user.age < 20) {
-        fs.writeFile(path.join(pathManYounger20, `${user.name}`), JSON.stringify(user), err => {
-            if (err) {
-                return;
-            }
-        });
-        return;
-    }
 
-    if (user.gender === 'male' && user.age > 20) {
-        fs.writeFile(path.join(pathManOlder20, `${user.name}`), JSON.stringify(user), err => {
-            if (err) {
-                return;
-            }
-        });
-        return;
-    }
 
-    if (user.gender === 'female' && user.age > 20) {
-        fs.writeFile(path.join(pathWomanOlder20, `${user.name}`), JSON.stringify(user), err => {
-            if (err) {
-                return;
-            }
-        });
-        return;
-    }
 
-    if (user.gender === 'female' && user.age < 20) {
-        fs.writeFile(path.join(pathWomanYounger20, `${user.name}`), JSON.stringify(user), err => {
-            if (err) {
-                return;
-            }
-        });
-    }
-});
+
 
 
 
