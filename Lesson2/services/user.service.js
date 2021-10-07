@@ -2,15 +2,21 @@ const util = require('util');
 const fs = require('fs');
 const path = require('path');
 
-let readFilePromise = util.promisify(fs.readFile);
+const readFilePromise = util.promisify(fs.readFile);
+const writeFilePromise = util.promisify(fs.writeFile);
 
-const path1 = path.join(__dirname, '../', 'dataBase', 'users.json');
-console.log(path1);
+const pathDB = path.join(__dirname, '../', 'dataBase', 'users.json');
 
-async function read() {
+const read = async () => {
+    const buffer = await (readFilePromise(pathDB));
+    return JSON.parse(buffer.toString());
+};
 
-    let buffer = await readFilePromise(path1);
-    console.log(buffer.toString());
-}
+const write = async (users) => {
+    await (writeFilePromise(pathDB, JSON.stringify(users)));
+};
 
-module.exports = read;
+module.exports = {
+    read,
+    write
+};
