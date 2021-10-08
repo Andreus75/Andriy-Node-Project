@@ -22,7 +22,7 @@ module.exports = {
         }
     },
 
-    userAuth: (request, response) => {
+    userAuth:  (request, response) => {
         try {
             response.json('welcome: email and password is good!!!');
         } catch (e) {
