@@ -19,7 +19,7 @@ module.exports = {
 
     createUser: async (request, response) => {
 
-        let users = await read();
+        const users = await read();
 
         users.push({ id: users[users.length-1].id + 1, ...request.body });
         await write(users);
@@ -41,4 +41,4 @@ module.exports = {
 
         response.json(usersF);
     }
-}
+};
