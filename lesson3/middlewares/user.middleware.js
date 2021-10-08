@@ -21,7 +21,7 @@ module.exports = {
     authUserMiddleware: async (request, response, next) => {
         try {
             const userByEmailAndPassword = await User.findOne({email: request.body.email, password: request.body.password});
-
+            
             if (!userByEmailAndPassword) {
                 throw new Error('Email or password is wrong!!!');
             }
