@@ -18,7 +18,7 @@ module.exports = {
 
             response.json(user);
         } catch (e) {
-            response.json(e);
+            response.json(e.message);
         }
     },
 

@@ -18,9 +18,23 @@ module.exports = {
         }
     },
 
+    findUserWithId: async (request, response, next) => {
+        try {
+            const { user_id } = request.params;
+
+            await User.findById(user_id);
+
+            next();
+        } catch (e) {
+            response.json('User with this id is missing');
+        }
+    },
+
     authUserMiddleware: async (request, response, next) => {
         try {
-            const userByEmailAndPassword = await User.findOne({email: request.body.email, password: request.body.password});
+            const { user_email, user_password } = request.body;
+
+            const userByEmailAndPassword = await User.findOne({email: user_email, password: user_password});
             
             if (!userByEmailAndPassword) {
                 throw new Error('Email or password is wrong!!!');
