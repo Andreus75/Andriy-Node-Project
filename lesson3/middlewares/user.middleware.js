@@ -1,6 +1,6 @@
 const User = require('../dataBase/User');
 
-const {Error} = require("mongoose");
+const { Error } = require('mongoose');
 
 module.exports = {
     createUserMiddleware: async (request, response, next) => {

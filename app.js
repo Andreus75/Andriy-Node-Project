@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-const { MONGO_CONNECT_URL, PORT } = require('./lesson3/configs/config');
+const { MONGO_CONNECT_URL, PORT } = require('./configs/config');
 
 mongoose.connect(MONGO_CONNECT_URL);
 
