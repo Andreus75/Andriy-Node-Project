@@ -50,9 +50,11 @@ module.exports = {
     updateUser: async (request, response) => {
         try {
             const { user_id } = request.params;
-            // const { name, age, role} = request.body;
 
             const user = await User.findById(user_id);
+
+            user.name = request.body.name;
+            user.save();
 
             response.json(user);
         } catch (e) {
