@@ -8,6 +8,10 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
+    age: {
+        type: Number,
+        trim: true
+    },
     email: {
         type: String,
         unique: true,
@@ -21,9 +25,9 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        unique: true,
         required: true,
-        trim: true
+        trim: true,
+        select: false
     }
 }, { timestamps: true });
 

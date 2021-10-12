@@ -9,8 +9,8 @@ const passwordService = require('../services/password.service');
 module.exports = {
     createUserMiddleware: async (request, response, next) => {
         try {
-            const { user_email } = request.body;
-            const userByEmail = await User4.findOne({email: user_email});
+            const { email } = request.body;
+            const userByEmail = await User4.findOne({email});
 
             if (userByEmail) {
                 throw new Error('Email already exist!!!');
@@ -42,7 +42,13 @@ module.exports = {
         try {
             const { user_id } = request.params;
 
-            await User4.findById(user_id);
+            const userById = await User4.findById(user_id);
+
+            request.user = userById;
+
+            if (!userById) {
+                throw new Error('User with this id is missing!!!');
+            }
 
             next();
         } catch (e) {
@@ -62,19 +68,36 @@ module.exports = {
 
             next();
         } catch (e) {
+            response.json('Wrong email or password!!!');
+        }
+    },
+
+    authUserToEmail: async (request, response, next) => {
+        try {
+            const { email } = request.body;
+            const userByEmail = await User4
+                .findOne({ email })
+                .select('+password')
+                .lean();
+
+            if (!userByEmail) {
+                throw new Error('Email or password is wrong + authUserToEmail!!!');
+            }
+
+            request.user = userByEmail;
+
+            next();
+        } catch (e) {
             response.json(e.message);
         }
     },
 
-    authUserMiddleware: async (request, response, next) => {
+    authUserToPassword: async (request, response, next) => {
         try {
-            const userByEmail = await User4.findOne({email: request.body.email});
+            const { password } = request.body;
+            const { password: hashPassword } = request.user;;
 
-            if (!userByEmail) {
-                throw new Error('Email or password is wrong!!!++++++');
-            }
-
-            await passwordService.compare(request.body.password, userByEmail.password);
+            await passwordService.compare(password, hashPassword);
 
             next();
         } catch (e) {

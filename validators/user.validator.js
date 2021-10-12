@@ -27,13 +27,10 @@ const createUserValidator = Joi.object({
 });
 
 const passwordAndEmailValidator = Joi.object({
-    name: Joi.string(),
-    age: Joi.number(),
     email: Joi.string()
         .regex(EMAIL_REGEXP)
         .required()
         .trim(),
-    role: Joi.string(),
     password: Joi.string()
         .regex(PASSWORD_REGEXP)
         .required()

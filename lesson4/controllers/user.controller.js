@@ -14,22 +14,13 @@ module.exports = {
         }
     },
 
-    getUserById: async (request, response) => {
+    getUserById: (request, response) => {
         try {
-            const { user_id } = request.params;
-            let user = await User.findById(user_id).lean();
+            const user = request.user;
 
-            user = userUtil.userNormalizator(user);
+            const normalisedUser = userUtil.userNormalizator(user);
 
-            response.json(user);
-        } catch (e) {
-            response.json(e.message);
-        }
-    },
-
-    userAuth: (request, response) => {
-        try {
-            response.json('welcome: email and password is good!!!');
+            response.json(normalisedUser);
         } catch (e) {
             response.json(e.message);
         }
@@ -41,9 +32,11 @@ module.exports = {
 
             const newUser = await User.create({ ...request.body, password: hashedPassword });
 
-            response.json(newUser);
+            const newUserNormalise = userUtil.userNormalizator(newUser);
+
+            response.json(newUserNormalise);
         } catch (e) {
-            response.json(e);
+            response.json(e.message);
         }
     },
 
@@ -63,10 +56,15 @@ module.exports = {
     },
 
     deleteUser: async (request, response) => {
-        const { user_id } = request.body;
+        try {
+            const user = request.user;
 
-        await User.deleteOne(user_id);
+            await User.deleteOne(user);
 
-        response.json('user delete');
+            response.json('user delete');
+        } catch (e) {
+            response.json(e.message);
+        }
+
     }
 };
