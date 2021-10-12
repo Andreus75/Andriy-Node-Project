@@ -11,7 +11,7 @@ router.get('/:user_id', userMiddleware.findUserWithId, userController4.getUserBy
 
 router.delete('/:user_id', userMiddleware.findUserWithId, userController4.deleteUser);
 
-router.put('/:user_id', userMiddleware.isUserBodyValid, userController4.updateUser);
+router.put('/:user_id', userMiddleware.isUserBodyValid, userMiddleware.findUserWithId, userController4.updateUser);
 
 module.exports = router;
 
