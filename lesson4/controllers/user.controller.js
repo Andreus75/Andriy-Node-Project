@@ -42,12 +42,12 @@ module.exports = {
 
     updateUser: async (request, response) => {
         try {
-            const user = request.user;
+            const { _id } = request.user;
+            const { name, age } = request.body;
 
-            user.name = request.body.name;
-            await user.save();
+            const userUpdate = await User.findByIdAndUpdate(_id, { name, age }, { new: true });
 
-            response.json(user);
+            response.json(userUpdate);
         } catch (e) {
             response.json(e.message);
         }

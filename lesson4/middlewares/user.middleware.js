@@ -38,6 +38,22 @@ module.exports = {
         }
     },
 
+    isUserUpdateBodyValid: (request, response, next) => {
+        try {
+            const { error, value } = userValidator.updateUserValidator.validate(request.body);
+
+            request.body = value;
+
+            if (error) {
+                throw new Error(error.details[0].message);
+            }
+
+            next();
+        } catch (e) {
+            response.json(e.message);
+        }
+    },
+
     findUserWithId: async (request, response, next) => {
         try {
             const { user_id } = request.params;
