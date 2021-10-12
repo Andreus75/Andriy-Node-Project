@@ -18,9 +18,7 @@ module.exports = {
         try {
             const user = request.user;
 
-            const normalisedUser = userUtil.userNormalizator(user);
-
-            response.json(normalisedUser);
+            response.json(user);
         } catch (e) {
             response.json(e.message);
         }

@@ -1,4 +1,5 @@
-const {userNormalizator} = require("../util/user.util");
+const {userNormalizator} = require('../util/user.util');
+
 module.exports = {
     login: (request, response) => {
         try {

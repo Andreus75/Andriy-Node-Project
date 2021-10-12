@@ -1,13 +1,13 @@
 const router = require('express').Router();
 
-const authController = require('../controllers/auth.controller');
-const userMiddleware = require('../middlewares/user.middleware');
+const { authController } = require('../controllers');
+const { authMiddleware } = require('../middlewares');
 
 router.post(
     '/',
-    userMiddleware.authEmailAndPasswordValid,
-    userMiddleware.authUserToEmail,
-    userMiddleware.authUserToPassword,
+    authMiddleware.authEmailAndPasswordValid,
+    authMiddleware.authUserToEmail,
+    authMiddleware.authUserToPassword,
     authController.login);
 
 module.exports = router;

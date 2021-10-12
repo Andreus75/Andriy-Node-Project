@@ -10,11 +10,10 @@ mongoose.connect(MONGO_CONNECT_URL);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const userRouter4 = require('../lesson4/routers/user.router');
-const authRouter4 =require('../lesson4/routers/auth.router');
+const { authRouter, userRouter} = require('../lesson4/routers');
 
-app.use('/users', userRouter4);
-app.use('/auth', authRouter4);
+app.use('/users', userRouter);
+app.use('/auth', authRouter);
 
 app.listen(PORT, () => {
     console.log(`App listen ${PORT}`);
