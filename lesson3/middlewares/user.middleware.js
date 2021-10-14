@@ -14,7 +14,7 @@ module.exports = {
 
             next();
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
     },
 
@@ -42,7 +42,7 @@ module.exports = {
 
             next();
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
     }
 };
