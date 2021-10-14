@@ -4,41 +4,41 @@ const passwordService = require('../services/password.service');
 const userUtil = require('../util/user.util');
 
 module.exports = {
-    getUsersL4: async (request, response) => {
+    getUsersL4: async (request, response, next) => {
         try {
             const users = await User.find();
 
             response.json(users);
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
     },
 
-    getUserById: (request, response) => {
+    getUserById: (request, response, next) => {
         try {
             const user = request.user;
 
             response.json(user);
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
     },
 
-    createUser: async (request, response) => {
+    createUser: async (request, response, next) => {
         try {
             const hashedPassword = await passwordService.hash(request.body.password);
 
             const newUser = await User.create({ ...request.body, password: hashedPassword });
 
-            const newUserNormalise = userUtil.userNormalizator(newUser);
+            const newUserNormalise = userUtil.userNormalization(newUser);
 
             response.json(newUserNormalise);
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
     },
 
-    updateUser: async (request, response) => {
+    updateUser: async (request, response, next) => {
         try {
             const { _id } = request.user;
             const { name, age } = request.body;
@@ -47,11 +47,11 @@ module.exports = {
 
             response.json(userUpdate);
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
     },
 
-    deleteUser: async (request, response) => {
+    deleteUser: async (request, response, next) => {
         try {
             const user = request.user;
 
@@ -59,7 +59,7 @@ module.exports = {
 
             response.json('user delete');
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
 
     }

@@ -1,15 +1,15 @@
-const {userNormalizator} = require('../util/user.util');
+const {userNormaliseToAuth} = require('../util/user.util');
 
 module.exports = {
-    login: (request, response) => {
+    login: (request, response, next) => {
         try {
             const { user } = request;
 
-            const userNormalised = userNormalizator(user);
+            const userNormalised = userNormaliseToAuth(user);
 
             response.json(userNormalised);
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
     }
 };

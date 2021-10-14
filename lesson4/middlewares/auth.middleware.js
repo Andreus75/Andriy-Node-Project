@@ -12,7 +12,10 @@ module.exports = {
             request.body = value;
 
             if (error) {
-                throw new Error(error.details[0].message);
+                return next({
+                    message: new Error(error.details[0].message),
+                    status: 400
+                });
             }
 
             next();
@@ -30,27 +33,30 @@ module.exports = {
                 .lean();
 
             if (!userByEmail) {
-                throw new Error('Email or password is wrong + authUserToEmail!!!');
+                return next({
+                    message: 'Email or password is wrong!!!',
+                    status: 404
+                });
             }
 
             request.user = userByEmail;
 
             next();
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
     },
 
     authUserToPassword: async (request, response, next) => {
         try {
             const { password } = request.body;
-            const { password: hashPassword } = request.user;;
+            const { password: hashPassword } = request.user;
 
             await passwordService.compare(password, hashPassword);
 
             next();
         } catch (e) {
-            response.json(e.message);
+            next(e);
         }
     }
 };
