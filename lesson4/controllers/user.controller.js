@@ -40,6 +40,7 @@ module.exports = {
     updateUser: async (request, response, next) => {
         try {
             const { _id } = request.user;
+
             const { name, age } = request.body;
 
             const userUpdate = await User.findByIdAndUpdate(_id, { name, age }, { new: true });
