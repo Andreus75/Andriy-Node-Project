@@ -1,6 +1,5 @@
 const User = require('../dataBase/User');
 const passwordService = require('../services/password.service');
-
 const userUtil = require('../util/user.util');
 
 module.exports = {
@@ -30,7 +29,7 @@ module.exports = {
 
             const newUser = await User.create({ ...request.body, password: hashedPassword });
 
-            const newUserNormalise = userUtil.userNormalization(newUser);
+            const newUserNormalise = userUtil.userNormaliseToAuth(newUser);
 
             response.json(newUserNormalise);
         } catch (e) {

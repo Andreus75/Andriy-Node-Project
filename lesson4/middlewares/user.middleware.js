@@ -1,8 +1,6 @@
-const User4 = require('../dataBase/User');
-
 const { Error } = require('mongoose');
 
-const userValidator = require('../../validators/user.validator');
+const User4 = require('../dataBase/User');
 
 module.exports = {
     createUserMiddleware: async (request, response, next) => {
@@ -24,28 +22,9 @@ module.exports = {
         }
     },
 
-    isUserBodyValid: (request, response, next) => {
+    isUserBodyValid: (validator) => (request, response, next) => {
         try {
-            const { error, value } = userValidator.createUserValidator.validate(request.body);
-
-            request.body = value;
-
-            if (error) {
-                return next({
-                    message:  new Error(error.details[0].message),
-                    status: 400
-                });
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    isUserUpdateBodyValid: (request, response, next) => {
-        try {
-            const { error, value } = userValidator.updateUserValidator.validate(request.body);
+            const { error, value } = validator.validate(request.body);
 
             request.body = value;
 
@@ -78,7 +57,7 @@ module.exports = {
             }
             next();
         } catch (e) {
-            response.json('User with this id is missing');
+            next(e);
         }
     },
 

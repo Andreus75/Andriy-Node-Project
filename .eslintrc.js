@@ -28,6 +28,10 @@ module.exports = {
         'eol-last': 'error',
         eqeqeq: 'error',
         'guard-for-in': 'off',
+        quotes: [
+            'error',
+            'single'
+        ],
         'global-require': 'off',
         indent: [
             'warn',
