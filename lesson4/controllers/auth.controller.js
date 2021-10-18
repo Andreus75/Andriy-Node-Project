@@ -36,7 +36,8 @@ module.exports = {
 
     logout: async (request, response, next) => {
         try {
-            await O_Auth.remove({access_token: request.token});
+            const token = request.get(AUTHORIZATION);
+            await O_Auth.remove({access_token: token});
 
             response.json('logout');
         } catch (e) {

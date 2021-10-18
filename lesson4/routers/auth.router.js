@@ -20,7 +20,7 @@ router.post(
     authMiddleware.authUserToPassword,
     authController.login);
 
-router.post('/logout', authMiddleware.checkDeleteToken, authController.logout);
+router.post('/logout', authController.logout);
 
 router.post('/refresh', authMiddleware.checkRefreshToken, authController.login);
 

@@ -102,35 +102,5 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    },
-
-    checkDeleteToken: async (request, response, next) => {
-        try {
-            const token = request.get(AUTHORIZATION);
-
-            if (!token) {
-                return next({
-                    message: INVALID_TOKEN,
-                    status: 401
-                });
-            }
-
-            await jwtService.verifyToken(token);
-
-            request.token = token;
-
-            const tokenRes = await O_Auth.findOne({ access_token: token }).populate('user_id');
-
-            if (!tokenRes) {
-                return next({
-                    message: INVALID_TOKEN,
-                    status: 401
-                });
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
     }
 };
