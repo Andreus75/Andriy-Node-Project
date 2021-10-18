@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
+const { authMiddleware, userMiddleware } = require('../middlewares');
 const { userController } = require('../controllers');
-const userMiddleware = require('../middlewares/user.middleware');
 const userValidator = require('../validators/user.validator');
 
 router.get('/', userController.getUsersL4);
@@ -21,6 +21,8 @@ router.delete(
     '/:user_id',
     userMiddleware.findUserWithId,
     userController.deleteUser);
+
+router.delete('/', authMiddleware.chekAccessToken, userController.deleteAccount);
 
 router.put(
     '/:user_id',

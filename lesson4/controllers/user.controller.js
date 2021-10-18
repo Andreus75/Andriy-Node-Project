@@ -1,5 +1,5 @@
-const User = require('../dataBase/User');
 const passwordService = require('../services/password.service');
+const User = require('../dataBase/User');
 const userUtil = require('../util/user.util');
 
 module.exports = {
@@ -31,7 +31,7 @@ module.exports = {
 
             const newUserNormalise = userUtil.userNormaliseToAuth(newUser);
 
-            response.json(newUserNormalise);
+            response.status(201).json(newUserNormalise);
         } catch (e) {
             next(e);
         }
@@ -45,7 +45,7 @@ module.exports = {
 
             const userUpdate = await User.findByIdAndUpdate(_id, { name, age }, { new: true });
 
-            response.json(userUpdate);
+            response.status(201).json(userUpdate);
         } catch (e) {
             next(e);
         }
@@ -57,10 +57,18 @@ module.exports = {
 
             await User.deleteOne(user);
 
-            response.json('user delete');
+            response.sendStatus(204);
         } catch (e) {
             next(e);
         }
 
+    },
+
+    deleteAccount: (request, response, next) => {
+        try {
+            response.json('ok');
+        } catch (e) {
+            next(e);
+        }
     }
 };

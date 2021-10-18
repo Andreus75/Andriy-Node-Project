@@ -1,5 +1,6 @@
 const { Error } = require('mongoose');
 
+const {EMAIL_ALREADY_EXIST, ACCESS_DENIED, USER_WITH_THIS_ID_IS_MISSING} = require('../../configs/error.enum');
 const User4 = require('../dataBase/User');
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
 
             if (userByEmail) {
                 return next({
-                    message: 'Email already exist!!!',
+                    message: EMAIL_ALREADY_EXIST,
                     status: 404
                 });
             }
@@ -51,7 +52,7 @@ module.exports = {
 
             if (!userById) {
                 return next({
-                    message: 'User with this id is missing!!!',
+                    message: USER_WITH_THIS_ID_IS_MISSING,
                     status: 404
                 });
             }
@@ -67,7 +68,7 @@ module.exports = {
 
             if (!roleArr.includes(role)) {
                 return next({
-                    message: 'Access denied',
+                    message: ACCESS_DENIED,
                     status: 404
                 });
             }
