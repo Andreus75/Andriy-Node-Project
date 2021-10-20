@@ -1,5 +1,9 @@
 const { AUTHORIZATION } = require('../../configs/costants');
-const {EMAIL_OR_PASSWORD_IS_WRONG, INVALID_TOKEN} = require('../../configs/error.enum');
+const {EMAIL_OR_PASSWORD_IS_WRONG,
+    INVALID_TOKEN,
+    ClientErrorNotFound,
+    ClientErrorUnauthorized} =
+    require('../../configs/error.enum');
 const O_Auth = require('../dataBase/O_Auth');
 const { passwordService, jwtService } = require('../services');
 const tokenTypeEnum = require('../../configs/token-type.enum');
@@ -17,7 +21,7 @@ module.exports = {
             if (!userByEmail) {
                 return next({
                     message: EMAIL_OR_PASSWORD_IS_WRONG,
-                    status: 404
+                    status: ClientErrorNotFound
                 });
             }
 
@@ -49,7 +53,7 @@ module.exports = {
             if (!token) {
                 return next({
                     message: INVALID_TOKEN,
-                    status: 401
+                    status: ClientErrorUnauthorized
                 });
             }
 
@@ -81,7 +85,7 @@ module.exports = {
             if (!token) {
                 return next({
                     message: INVALID_TOKEN,
-                    status: 401
+                    status: ClientErrorUnauthorized
                 });
             }
 
@@ -92,7 +96,7 @@ module.exports = {
             if (!tokenResponse) {
                 return next({
                     message: INVALID_TOKEN,
-                    status: 401
+                    status: ClientErrorUnauthorized
                 });
             }
 

@@ -1,6 +1,6 @@
 const O_Auth = require('../dataBase/O_Auth');
 const { jwtService } = require('../services');
-const {TO_MACH_LOGINS} = require('../../configs/error.enum');
+const {TO_MACH_LOGINS, ClientErrorConflict} = require('../../configs/error.enum');
 const { userNormalization } = require('../util/user.util');
 
 module.exports = {
@@ -14,7 +14,8 @@ module.exports = {
 
             if (logCount > 10) {
                 return next({
-                    message: TO_MACH_LOGINS
+                    message: TO_MACH_LOGINS,
+                    status: ClientErrorConflict
                 });
             }
 
@@ -37,7 +38,7 @@ module.exports = {
     logout: async (request, response, next) => {
         try {
             const token = request.get(AUTHORIZATION);
-            await O_Auth.remove({access_token: token});
+            await O_Auth.deleteOne({access_token: token});
 
             response.json('logout');
         } catch (e) {

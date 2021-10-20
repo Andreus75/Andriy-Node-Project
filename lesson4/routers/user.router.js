@@ -20,6 +20,7 @@ router.get(
 router.delete(
     '/:user_id',
     userMiddleware.findUserWithId,
+    authMiddleware.chekAccessToken,
     userController.deleteUser);
 
 router.delete('/', authMiddleware.chekAccessToken, userController.deleteAccount);

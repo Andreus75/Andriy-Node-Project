@@ -1,6 +1,8 @@
-const passwordService = require('../services/password.service');
+const { passwordService, emailService } = require('../services');
 const User = require('../dataBase/User');
 const userUtil = require('../util/user.util');
+const { WELCOME } = require('../../configs/email-action.enum');
+const { SuccessNoContent, SuccessCreated} = require('../../configs/error.enum');
 
 module.exports = {
     getUsersL4: async (request, response, next) => {
@@ -25,13 +27,17 @@ module.exports = {
 
     createUser: async (request, response, next) => {
         try {
-            const hashedPassword = await passwordService.hash(request.body.password);
+            const { name, password, email } = request.body;
+
+            const hashedPassword = await passwordService.hash(password);
+
+            await emailService.sendMail(email, WELCOME, { userName: name });
 
             const newUser = await User.create({ ...request.body, password: hashedPassword });
 
             const newUserNormalise = userUtil.userNormaliseToAuth(newUser);
 
-            response.status(201).json(newUserNormalise);
+            response.status(SuccessCreated).json(newUserNormalise);
         } catch (e) {
             next(e);
         }
@@ -45,7 +51,7 @@ module.exports = {
 
             const userUpdate = await User.findByIdAndUpdate(_id, { name, age }, { new: true });
 
-            response.status(201).json(userUpdate);
+            response.status(SuccessCreated).json(userUpdate);
         } catch (e) {
             next(e);
         }
@@ -57,7 +63,7 @@ module.exports = {
 
             await User.deleteOne(user);
 
-            response.sendStatus(204);
+            response.sendStatus(SuccessNoContent);
         } catch (e) {
             next(e);
         }

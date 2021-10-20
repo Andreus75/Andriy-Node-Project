@@ -4,5 +4,13 @@ module.exports = {
     EMAIL_ALREADY_EXIST: 'Email already exist!!!',
     ACCESS_DENIED: 'Access denied',
     USER_WITH_THIS_ID_IS_MISSING: 'User with this id is missing!!!',
-    TO_MACH_LOGINS: 'Too mach logins!!!'
+    TO_MACH_LOGINS: 'Too mach logins!!!',
+    WRONG_TEMPLATE_NAME: 'Wrong template name!!!',
+
+    ClientErrorBadRequest: 400,
+    ClientErrorUnauthorized: 401,
+    ClientErrorNotFound: 404,
+    ClientErrorConflict: 409,
+    SuccessNoContent: 204,
+    SuccessCreated: 201
 };
