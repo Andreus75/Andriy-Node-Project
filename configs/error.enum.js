@@ -8,6 +8,8 @@ module.exports = {
     WRONG_TEMPLATE_NAME: 'Wrong template name!!!',
     USER_IS_ACTIVE: 'User is Active',
     USER_IS_NOT_ACTIVE: 'User is not active',
+    USER_NOT_FOUND: 'User not found',
+
 
     SuccessOK: 200,
     SuccessCreated: 201,
@@ -17,4 +19,5 @@ module.exports = {
     ClientErrorForbidden: 403,
     ClientErrorNotFound: 404,
     ClientErrorConflict: 409,
+    ServerErrorInternal: 500
 };

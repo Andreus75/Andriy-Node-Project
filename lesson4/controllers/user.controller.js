@@ -1,4 +1,4 @@
-const { passwordService, emailService, jwtService} = require('../services');
+const { emailService, jwtService} = require('../services');
 const User = require('../dataBase/User');
 const userUtil = require('../util/user.util');
 const { WELCOME } = require('../../configs/email-action.enum');
@@ -29,11 +29,9 @@ module.exports = {
 
     createUser: async (request, response, next) => {
         try {
-            const { name, password, email } = request.body;
+            const { name, email } = request.body;
 
-            const hashedPassword = await passwordService.hash(password);
-
-            const newUser = await User.create({ ...request.body, password: hashedPassword });
+            const newUser = await User.createUserWithHashPassword(request.body);
 
             const token = jwtService.createActionToken();
 

@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const tokenEnum = require('../../configs/token-type.enum');
+const tokenEnum = require('../../configs/action-token-type-enum');
 
 const actionSchema = new Schema({
     token: {
@@ -19,6 +19,6 @@ const actionSchema = new Schema({
         required: true,
         ref: 'user'
     },
-}, { timestamps: true });
+}, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
 module.exports = model('action', actionSchema);

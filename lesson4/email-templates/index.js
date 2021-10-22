@@ -8,6 +8,10 @@ module.exports = {
     [emailActionEnum.ORDER_CONFIRMED]: {
         templateName: 'order-confirmed',
         subject: 'Cool !!!'
+    },
+    [emailActionEnum.FORGOT_PASSWORD]: {
+        templateName: 'forgot-password',
+        subject: 'Everybody forgot something, dont worry :)'
     }
 };
 
