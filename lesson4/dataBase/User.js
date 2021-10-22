@@ -28,6 +28,11 @@ const userSchema = new Schema({
         required: true,
         trim: true,
         select: false
+    },
+    is_active: {
+        type: Boolean,
+        default: false,
+        required: true
     }
 }, { timestamps: true });
 

@@ -1,4 +1,4 @@
-const { AUTHORIZATION } = require('../../configs/costants');
+const { AUTHORIZATION } = require('../../configs/constants');
 const {EMAIL_OR_PASSWORD_IS_WRONG,
     INVALID_TOKEN,
     ClientErrorNotFound,
@@ -8,6 +8,7 @@ const O_Auth = require('../dataBase/O_Auth');
 const { passwordService, jwtService } = require('../services');
 const tokenTypeEnum = require('../../configs/token-type.enum');
 const User4 = require('../dataBase/User');
+const Action = require('../dataBase/Action');
 
 module.exports = {
     authUserToEmail: async (request, response, next) => {
@@ -59,11 +60,11 @@ module.exports = {
 
             await jwtService.verifyToken(token);
 
-            const tokenResponse = await O_Auth.findOne({ refresh_token: token }).populate('user_id');
+            const tokenResponse = await O_Auth.findOne({ access_token: token }).populate('user_id');
 
             if (!tokenResponse) {
                 return next({
-                    message: INVALID_TOKEN,
+                    message: INVALID_TOKEN + '111111',
                     status: 401
                 });
             }
@@ -91,7 +92,7 @@ module.exports = {
 
             await jwtService.verifyToken(token, tokenTypeEnum.REFRESH);
 
-            const tokenResponse = await O_Auth.findOne({ access_token: token }).populate('user_id');
+            const tokenResponse = await O_Auth.findOne({ refresh_token: token }).populate('user_id');
 
             if (!tokenResponse) {
                 return next({
@@ -101,6 +102,28 @@ module.exports = {
             }
 
             request.user = tokenResponse.user_id;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkActivateToken: async (request, response, next) => {
+        try {
+            const { token } = request.params;
+
+            await jwtService.verifyToken(token, tokenTypeEnum.ACTION);
+
+            const {user_id: user, _id} = await Action.findOne({token, type: tokenTypeEnum.ACTION}).populate('user_id');
+
+            if (!user) {
+                throw new ErrorHandler(INVALID_TOKEN, ClientErrorUnauthorized);
+            }
+
+            await Action.deleteOne({_id});
+
+            request.user = user;
 
             next();
         } catch (e) {

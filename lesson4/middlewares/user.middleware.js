@@ -4,7 +4,8 @@ const {EMAIL_ALREADY_EXIST,
     ACCESS_DENIED,
     USER_WITH_THIS_ID_IS_MISSING,
     ClientErrorNotFound,
-    ClientErrorBadRequest} =
+    ClientErrorBadRequest, USER_IS_NOT_ACTIVE, ClientErrorForbidden
+} =
     require('../../configs/error.enum');
 const User4 = require('../dataBase/User');
 
@@ -78,6 +79,22 @@ module.exports = {
                 });
             }
 
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    isUserActive: (request, response, next) => {
+        try {
+            const {user} = request;
+
+            if (!user.is_active) {
+                return next({
+                    message: USER_IS_NOT_ACTIVE,
+                    status: ClientErrorForbidden
+                });
+            }
             next();
         } catch (e) {
             next(e);

@@ -4,13 +4,15 @@ const { authMiddleware, userMiddleware } = require('../middlewares');
 const { userController } = require('../controllers');
 const userValidator = require('../validators/user.validator');
 
-router.get('/', userController.getUsersL4);
-
 router.post(
     '/',
     userMiddleware.isUserBodyValid(userValidator.createUserValidator),
     userMiddleware.createUserMiddleware,
     userController.createUser);
+
+router.use(authMiddleware.chekAccessToken, userMiddleware.isUserActive);
+
+router.get('/', userController.getUsersL4);
 
 router.get(
     '/:user_id',
@@ -32,4 +34,3 @@ router.put(
     userController.updateUser);
 
 module.exports = router;
-

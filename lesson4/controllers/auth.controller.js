@@ -1,7 +1,8 @@
 const O_Auth = require('../dataBase/O_Auth');
 const { jwtService } = require('../services');
-const {TO_MACH_LOGINS, ClientErrorConflict} = require('../../configs/error.enum');
+const {TO_MACH_LOGINS, ClientErrorConflict, SuccessOK, USER_IS_ACTIVE} = require('../../configs/error.enum');
 const { userNormalization } = require('../util/user.util');
+const User = require('../dataBase/User');
 
 module.exports = {
     login: async (request, response, next) => {
@@ -41,6 +42,18 @@ module.exports = {
             await O_Auth.deleteOne({access_token: token});
 
             response.json('logout');
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    activate: async (request, response, next) => {
+        try {
+            const {_id} = request.user;
+
+            await User.updateOne({_id}, {is_active: true});
+
+            response.status(SuccessOK).json(USER_IS_ACTIVE);
         } catch (e) {
             next(e);
         }

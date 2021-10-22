@@ -12,7 +12,7 @@ mongoose.connect(MONGO_CONNECT_URL);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const { authRouter, userRouter} = require('../lesson4/routers');
+const { authRouter, userRouter } = require('../lesson4/routers');
 
 app.use('/users', userRouter);
 app.use('/auth', authRouter);

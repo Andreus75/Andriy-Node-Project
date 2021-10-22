@@ -24,4 +24,6 @@ router.post('/logout', authController.logout);
 
 router.post('/refresh', authMiddleware.checkRefreshToken, authController.login);
 
+router.get('/activate/:token', authMiddleware.checkActivateToken, authController.activate);
+
 module.exports = router;
