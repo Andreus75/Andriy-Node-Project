@@ -1,5 +1,5 @@
 const O_Auth = require('../dataBase/O_Auth');
-const { jwtService, emailService } = require('../services');
+const { jwtService, emailService, passwordService} = require('../services');
 const {
     TO_MACH_LOGINS,
     ClientErrorConflict,
@@ -85,7 +85,7 @@ module.exports = {
             }
 
             const actionForgotToken = jwtService.generateForgotActionToken(actionTokenTypeEnum.FORGOT_PASSWORD);
-            console.log(actionForgotToken);
+
             await ActionForgot.create({
                 token_forgot: actionForgotToken,
                 token_type: actionTokenTypeEnum.FORGOT_PASSWORD,
@@ -103,23 +103,28 @@ module.exports = {
         }
     },
 
-    setNewPasswordAfterForgot: (request, response, next) => {
+    setNewPasswordAfterForgot: async (request, response, next) => {
         try {
-            const actionToken = request.get(AUTHORIZATION);
+            // const token = request.get(AUTHORIZATION);
 
-            // const user = request.user;
+            const { user, user: { _id, email, name }} = request;
 
-            const newPassword = request.body;
+            const { password } = request.body;
 
-            // passwordService.hash(newPassword);
+            const hashNewPassword = await passwordService.hash(password);
 
-            // const newUser = User.updateOne();
+            await User.findByIdAndUpdate(_id, { password: hashNewPassword });
 
-            console.log(request.body);
-            console.log(newPassword);
-            console.log(actionToken);
+            await ActionForgot.deleteOne({user_id: user._id});
 
-            response.json('ok');
+            await O_Auth.deleteMany({user_id: user._id});
+
+            await emailService.sendMail(
+                email,
+                emailActionEnum.FORGOT_PASSWORD,
+                { userName: name});
+
+            response.jsonp('ok');
         } catch (e) {
             next(e);
         }
