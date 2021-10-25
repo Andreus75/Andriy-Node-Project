@@ -19,7 +19,9 @@ const createUserValidator = Joi.object({
         .regex(EMAIL_REGEXP)
         .trim()
         .required(),
+
     role: Joi.string().allow(...Object.values(userRoles)),
+
     password: Joi.string()
         .regex(PASSWORD_REGEXP)
         .required()

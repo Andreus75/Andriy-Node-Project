@@ -10,9 +10,9 @@ router.post(
     userMiddleware.createUserMiddleware,
     userController.createUser);
 
-router.use(authMiddleware.chekAccessToken, userMiddleware.isUserActive);
-
 router.get('/', userController.getUsersL4);
+
+router.use(authMiddleware.chekAccessToken, userMiddleware.isUserActive);
 
 router.get(
     '/:user_id',

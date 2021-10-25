@@ -105,8 +105,6 @@ module.exports = {
 
     setNewPasswordAfterForgot: async (request, response, next) => {
         try {
-            // const token = request.get(AUTHORIZATION);
-
             const { user, user: { _id, email, name }} = request;
 
             const { password } = request.body;

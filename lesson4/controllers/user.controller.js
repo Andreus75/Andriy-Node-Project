@@ -4,7 +4,7 @@ const userUtil = require('../util/user.util');
 const { WELCOME } = require('../../configs/email-action.enum');
 const { SuccessNoContent, SuccessCreated} = require('../../configs/error.enum');
 const Action = require('../dataBase/Action');
-const { ACTION } = require('../../configs/token-type.enum');
+const { ACTION } = require('../../configs/action-token-type-enum');
 
 module.exports = {
     getUsersL4: async (request, response, next) => {

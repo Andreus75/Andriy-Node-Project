@@ -22,7 +22,10 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendMail = async (userMail, emailAction, context = {}) => {
-
+    console.log('+++++++++++++++++++++');
+    console.log(userMail);
+    console.log('+++++++++++++++++++++++++');
+    console.log(emailAction);
     const templateInfo = allTemplate[emailAction];
 
     if (!templateInfo) {
