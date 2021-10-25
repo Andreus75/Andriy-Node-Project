@@ -45,7 +45,7 @@ module.exports = {
 
     createActionToken: () => {
         const activate_token = jwt.sign({}, JWT_ACTION_SECRET, { expiresIn: '24h'});
-        console.log(activate_token);
+
         return activate_token;
     },
 

@@ -1,17 +1,32 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const cors = require('cors');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 require('dotenv').config();
 
-const { MONGO_CONNECT_URL, PORT } = require('../configs/config');
+const { MONGO_CONNECT_URL, PORT, NODE_ENV} = require('../configs/config');
+const checkDefauldData = require('./util/default-data.utils');
 // const ErrorHandler = require('../errors/ErrorHandler');
 
 const app = express();
 
 mongoose.connect(MONGO_CONNECT_URL);
 
-// app.use(cors({ origin: configureCors }));
+app.use(helmet());
+app.use(cors());
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100
+}));
+
+if (NODE_ENV === 'dev') {
+    const morgan = require('morgan');
+
+    app.use(morgan('dev'));
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,14 +45,18 @@ app.use('*', (err, request, response, next) => {
 
 app.listen(PORT, () => {
     console.log(`App listen ${PORT}`);
+    checkDefauldData();
 });
 
-// function configureCors(origin, calldack) {
-//     const whiteList = 'http://localhost:3000; http:4200'.split(';');
+// function _configureCors(origin, callback) {
+//     if (NODE_ENV === 'dev') {
+//         return callback(null, true);
+//     }
+//     const whiteList = ALLOWED_ORIGIN.split(';');
 //
 //     if (!whiteList.includes(origin)) {
-//         return calldack(new ErrorHandler('Cors is not allowed'), false);
+//         return callback(new ErrorHandler('Cors is not allowed'), false);
 //     }
 //
-//     return calldack(null, true);
+//     return callback(null, true);
 // }
