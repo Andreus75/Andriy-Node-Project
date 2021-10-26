@@ -73,7 +73,7 @@ module.exports = {
 
     sendMailForgotPassword: async (request, response, next) => {
         try {
-            const {email} = request.body;
+            const { email } = request.body;
 
             const user = await User.findOne({email});
 
@@ -105,6 +105,8 @@ module.exports = {
 
     setNewPasswordAfterForgot: async (request, response, next) => {
         try {
+            const token = request.get(AUTHORIZATION);
+
             const { user, user: { _id, email, name }} = request;
 
             const { password } = request.body;
@@ -113,7 +115,7 @@ module.exports = {
 
             await User.findByIdAndUpdate(_id, { password: hashNewPassword });
 
-            await ActionForgot.deleteOne({user_id: user._id});
+            await ActionForgot.deleteOne({ token });
 
             await O_Auth.deleteMany({user_id: user._id});
 

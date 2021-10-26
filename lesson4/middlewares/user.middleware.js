@@ -22,7 +22,7 @@ module.exports = {
                     status: ClientErrorNotFound
                 });
             }
-            
+
             next();
         } catch (e) {
             next(e);
@@ -95,6 +95,48 @@ module.exports = {
                     status: ClientErrorForbidden
                 });
             }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    isEmailValid: (validator) => (request, response, next) => {
+        try {
+            const email = request.body;
+
+            const { error, value } = validator.validate(email);
+
+            request.body = value;
+
+            if (error) {
+                return next({
+                    message: new Error(error.details[0].message),
+                    status: ClientErrorBadRequest
+                });
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    isPasswordValid: (validator) => (request, response, next) => {
+        try {
+            const password = request.body;
+
+            const { error, value } = validator.validate(password);
+
+            request.body = value;
+
+            if (error) {
+                return next({
+                    message: new Error(error.details[0].message),
+                    status: ClientErrorBadRequest
+                });
+            }
+
             next();
         } catch (e) {
             next(e);

@@ -6,8 +6,9 @@ const helmet = require('helmet');
 
 require('dotenv').config();
 
-const { MONGO_CONNECT_URL, PORT, NODE_ENV} = require('../configs/config');
-const checkDefauldData = require('./util/default-data.utils');
+const { MONGO_CONNECT_URL, PORT, NODE_ENV } = require('../configs/config');
+// const startCron = require('./cron');
+const checkDefaultData = require('./util/default-data.utils');
 // const ErrorHandler = require('../errors/ErrorHandler');
 
 const app = express();
@@ -45,7 +46,8 @@ app.use('*', (err, request, response, next) => {
 
 app.listen(PORT, () => {
     console.log(`App listen ${PORT}`);
-    checkDefauldData();
+    checkDefaultData();
+    // startCron();
 });
 
 // function _configureCors(origin, callback) {
