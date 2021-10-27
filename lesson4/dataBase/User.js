@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const userRoles = require('../../configs/user_roles_enum');
-const {passwordService} = require('../services');
+const passwordService = require('../services/password.service');
 
 const userSchema = new Schema({
     name: {

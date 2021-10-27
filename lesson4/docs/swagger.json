@@ -1,0 +1,453 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Andriy-75",
+    "description": "This is documentation for Andriy-Node-Project",
+    "contact": {
+      "name": "Andriy",
+      "email": "atrundey@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "users",
+      "description": "Everything about users"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Add a new user to the store",
+        "operationId": "createUser",
+        "description": "User object that needs tobe added to the store",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "default": "Andriy",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "age",
+            "in": "formData",
+            "default": 25,
+            "type": "number"
+          },
+          {
+            "name": "role",
+            "in": "formData",
+            "default": "user",
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "Example@gmail.com",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "Hello_Wold1!",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was created",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["users"],
+        "summary": "Pull out all uses from the store",
+        "operationId": "getAllUsers",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "default": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "default": 20,
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was created",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/singleUser"
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get a user from the store",
+        "operationId": "getUserById",
+        "description": "User object that you get from store",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "default": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user was found",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/singleUser"
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Change user from the store",
+        "operationId": "putUser",
+        "description": "User object that we change from store",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "default": "Ira",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "age",
+            "in": "formData",
+            "default": "22",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user was changed",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/singleUser"
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "Delete user from the store",
+        "operationId": "deleteUser",
+        "description": "User object that you delete from store",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "default": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user was deleted"
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Registration a new user",
+        "operationId": "authUser",
+        "description": "User object that needs registrations",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "Example@gmail.com",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "Hello_Wold1!",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was registered"
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Logout user",
+        "operationId": "logoutUser",
+        "description": "User object that needs logout",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "default": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was logout"
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Refresh user token",
+        "operationId": "refreshUser",
+        "description": "User object that needs refresh token",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "default": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User token was refresh"
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/activate/{token}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Activate user token",
+        "operationId": "activateUserToken",
+        "description": "User object that needs activate token",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "default": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User token was activated"
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/forgot": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Forgot password",
+        "operationId": "forgot password",
+        "description": "User forgot password",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "Example@gmail.com",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "check mail"
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Forgot and change password",
+        "operationId": "forgot password",
+        "description": "Change password",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "default": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "Hello_Wold1!",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password was changed"
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "singleUser": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "12345@ss",
+          "description": "MongoDB ID"
+        },
+        "email": {
+          "type": "string",
+          "example": "Example@gmail.com"
+        },
+        "name": {
+          "type": "string",
+          "example": "Andriy"
+        }
+      }
+    },
+    "commonError": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string",
+          "example": "Something went wrong"
+        },
+        "code": {
+          "type": "number",
+          "example": 400
+        }
+      }
+    }
+  }
+}

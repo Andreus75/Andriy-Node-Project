@@ -1,4 +1,4 @@
-const { emailService, jwtService} = require('../services');
+const { emailService, jwtService, userService} = require('../services');
 const User = require('../dataBase/User');
 const userUtil = require('../util/user.util');
 const { WELCOME } = require('../../configs/email-action.enum');
@@ -9,7 +9,7 @@ const { ACTION } = require('../../configs/action-token-type-enum');
 module.exports = {
     getUsersL4: async (request, response, next) => {
         try {
-            const users = await User.find();
+            const users = await userService.getAllUsers(request.query);
 
             response.json(users);
         } catch (e) {
