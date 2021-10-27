@@ -10,12 +10,20 @@ module.exports = {
             ...filters
         } = query;
 
-        console.log(JSON.stringify(filters, null, 2), 'OTHER FILTERS');
+        const findObject = {};
+
+        Object.keys(filters).forEach((filterParam) => {
+            switch (filterParam) {
+                case 'name':
+                    findObject.name = { $regex: `^${filters.name}`, $options: 'i' };
+                    break;
+            }
+        });
 
         const orderBy = order === 'asc' ? -1 : 1;
 
         return User
-            .find()
+            .find(findObject)
             .sort({ [sortBy]: orderBy })
             .limit(+perPage)
             .skip((page-1) * perPage);
