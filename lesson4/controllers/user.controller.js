@@ -41,7 +41,7 @@ module.exports = {
 
             let newUserNormalise = userUtil.userNormaliseToAuth(newUser);
 
-            const { avatar } = request.files;
+            const { avatar } = request.files || {};
 
             if (avatar) {
                 const uploadInfo = await s3Service.uploadImage(avatar, 'users', newUserNormalise._id.toString());

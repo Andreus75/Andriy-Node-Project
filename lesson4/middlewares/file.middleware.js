@@ -4,7 +4,7 @@ const {NOT_SUPPORTED_FORMAT, ClientErrorBadRequest} = require('../../configs/err
 module.exports = {
     checkUserAvatar: ( request, response, next ) => {
         try {
-            const { avatar } = request.files;
+            const { avatar } = request.files || {};
 
             if (!avatar) {
                 next();
