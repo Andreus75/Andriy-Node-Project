@@ -1,12 +1,13 @@
 const router = require('express').Router();
 
-const { authMiddleware, userMiddleware } = require('../middlewares');
+const { authMiddleware, fileMiddleware, userMiddleware } = require('../middlewares');
 const { userController } = require('../controllers');
 const userValidator = require('../validators/user.validator');
 
 router.post(
     '/',
     userMiddleware.isUserBodyValid(userValidator.createUserValidator),
+    fileMiddleware.checkUserAvatar,
     userMiddleware.createUserMiddleware,
     userController.createUser);
 

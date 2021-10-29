@@ -9,6 +9,7 @@ module.exports = {
     USER_IS_ACTIVE: 'User is Active',
     USER_IS_NOT_ACTIVE: 'User is not active',
     USER_NOT_FOUND: 'User not found',
+    NOT_SUPPORTED_FORMAT: 'Not supported format',
 
 
     SuccessOK: 200,

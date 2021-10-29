@@ -5,8 +5,7 @@ const {EMAIL_ALREADY_EXIST,
     USER_WITH_THIS_ID_IS_MISSING,
     ClientErrorNotFound,
     ClientErrorBadRequest, USER_IS_NOT_ACTIVE, ClientErrorForbidden
-} =
-    require('../../configs/error.enum');
+} = require('../../configs/error.enum');
 const User4 = require('../dataBase/User');
 
 module.exports = {

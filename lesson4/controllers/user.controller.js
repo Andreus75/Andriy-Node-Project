@@ -1,4 +1,4 @@
-const { emailService, jwtService, userService} = require('../services');
+const { emailService, s3Service, jwtService, userService} = require('../services');
 const User = require('../dataBase/User');
 const userUtil = require('../util/user.util');
 const { WELCOME } = require('../../configs/email-action.enum');
@@ -39,7 +39,18 @@ module.exports = {
 
             await emailService.sendMail(email, WELCOME, { userName: name, token });
 
-            const newUserNormalise = userUtil.userNormaliseToAuth(newUser);
+            let newUserNormalise = userUtil.userNormaliseToAuth(newUser);
+
+            const { avatar } = request.files;
+
+            if (avatar) {
+                const uploadInfo = await s3Service.uploadImage(avatar, 'users', newUserNormalise._id.toString());
+
+                newUserNormalise = await User.findByIdAndUpdate(
+                    newUserNormalise._id,
+                    { avatar: uploadInfo.Location},
+                    {new: true});
+            }
 
             response.status(SuccessCreated).json(newUserNormalise);
         } catch (e) {
