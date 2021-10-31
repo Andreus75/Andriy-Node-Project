@@ -12,6 +12,10 @@ module.exports = {
     [emailActionEnum.FORGOT_PASSWORD]: {
         templateName: 'forgot-password',
         subject: 'Everybody forgot something, dont worry :)'
+    },
+    [emailActionEnum.REMINDER]: {
+        templateName: 'reminder-inactive-users',
+        subject: 'Somebody did not visit our service for a month!'
     }
 };
 

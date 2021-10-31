@@ -23,6 +23,10 @@ module.exports = {
 
             const tokenPair = jwtService.generateTokenPair();
 
+            user.login = true;
+
+            await User.updateOne(user, {is_login: true});
+
             const logCount = await O_Auth.count({user_id: user._id});
 
             if (logCount > 10) {
@@ -51,6 +55,12 @@ module.exports = {
     logout: async (request, response, next) => {
         try {
             const token = request.get(AUTHORIZATION);
+
+            const userToken = await O_Auth.findOne({access_token: token});
+            const user = await User.findOne({_id: userToken.user_id});
+
+            await User.updateOne(user, {is_login: false});
+
             await O_Auth.deleteOne({access_token: token});
 
             response.json('logout');

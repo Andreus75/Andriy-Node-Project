@@ -9,8 +9,8 @@ const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 
 const { MONGO_CONNECT_URL, PORT, NODE_ENV } = require('../configs/config');
-// const startCron = require('./cron');
-const checkDefaultData = require('./util/default-data.utils');
+const startCron = require('./cron');
+const createDefaultData = require('./util/default-data.utils');
 // const ErrorHandler = require('../errors/ErrorHandler');
 const swaggerJson = require('./docs/swagger.json');
 
@@ -21,11 +21,13 @@ mongoose.connect(MONGO_CONNECT_URL).then(() => {
 });
 
 app.use(helmet());
+// app.use(cors({origin: _configureCors()}));
 app.use(cors());
 app.use(rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100
 }));
+
 
 if (NODE_ENV === 'dev') {
     const morgan = require('morgan');
@@ -53,8 +55,8 @@ app.use('*', (err, request, response, next) => {
 
 app.listen(PORT, () => {
     console.log(`App listen ${PORT}`);
-    checkDefaultData();
-    // startCron();
+    createDefaultData();
+    startCron();
 });
 
 // function _configureCors(origin, callback) {

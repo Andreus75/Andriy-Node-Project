@@ -35,6 +35,11 @@ const userSchema = new Schema({
         default: false,
         required: true
     },
+    is_login: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
     avatar: {
         type: String
     }
